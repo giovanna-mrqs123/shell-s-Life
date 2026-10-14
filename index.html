@@ -31,7 +31,7 @@
             width: 75px;
             height: 75px;
             object-fit: contain;
-            padding: 4x;
+            padding: 4px;
             margin-right: 12px;
         }
         
@@ -83,8 +83,24 @@
         }
         
         .navbar-nav .nav-link {
+            color: var(--verde-escuro);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 8px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.45);
             color: #355e2b;
-            text-decoration: underline;
+        }
+        
+        .navbar-nav .nav-link:focus-visible {
+            outline: 2px solid var(--verde-escuro);
+            outline-offset: 3px;
         }
         
         .btn-success {
@@ -226,7 +242,7 @@
             flex-direction: column;
             height: 100%;
             border: 1px solid rgba(167, 212, 137, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3 ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .cartao:hover {
@@ -241,11 +257,11 @@
         .btn-success {
             margin-right: 10px;
         }
-
+        
         html {
             scroll-behavior: smooth;
         }
-
+        
         #receitas {
             scroll-margin-top: 20px;
         }
@@ -281,7 +297,7 @@
                         <a class="nav-link" href="index.html">Início</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#receitas">Receitas</a>
+                        <a class="nav-link" href="#" onclick="irParaReceitas(event)">Receitas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#produtos">Produtos</a>
@@ -301,61 +317,61 @@
     </nav>
 
     <section id="receitas">
-    <div class="paginaR">
-        <div class="cartao">
-            <div class="receita">
-                <img src="https://p2.trrsf.com/image/fget/cf/1200/1200/middle/images.terra.com/2022/02/14/233248378-receitas-saudaveis-faceis-deliciosas-jantar.jpg" alt="">
+        <div class="paginaR">
+            <div class="cartao">
+                <div class="receita">
+                    <img src="https://p2.trrsf.com/image/fget/cf/1200/1200/middle/images.terra.com/2022/02/14/233248378-receitas-saudaveis-faceis-deliciosas-jantar.jpg" alt="">
+                </div>
+
+                <div class="corpoR">
+                    <h4>Salada com Frango</h4>
+                    <p class="desc">Uma salada refrescante e saborosa, com pedaços de frango grelhado e molho de orégano.</p>
+                    <div class="acoesReceita">
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSaladaFrango">Ver Receita</button>
+                        <div class="tempdifi">
+                            <span class="badge bg-primary">20 min</span>
+                            <span class="badge bg-success">Fácil</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="corpoR">
-                <h4>Salada com Frango</h4>
-                <p class="desc">Uma salada refrescante e saborosa, com pedaços de frango grelhado e molho de orégano.</p>
-                <div class="acoesReceita">
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSaladaFrango">Ver Receita</button>
-                    <div class="tempdifi">
-                        <span class="badge bg-primary">20 min</span>
-                        <span class="badge bg-success">Fácil</span>
+            <div class="cartao">
+                <div class="receita">
+                    <img src="https://www.estadao.com.br/resizer/v2/DHVLA2T6TNGEDPJFVJARWXYFCQ.jpeg?quality=80&auth=7bbf38c5f526da9b50b4ee12b06639f71857d25f14ebf7643bd099be0dcd964a&width=720&height=410&focal=1590,1830" alt="">
+                </div>
+
+                <div class="corpoR">
+                    <h4>Brownie Light</h4>
+                    <p class="desc">Um brownie leve e delicioso, perfeito para um sobremesa saudável.</p>
+                    <div class="acoesReceita">
+                        <a href="verreceita.html?id=1" class="btn btn-success">Ver Receita</a>
+                        <div class="tempdifi">
+                            <span class="badge bg-primary">20 min</span>
+                            <span class="badge bg-success">Fácil</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cartao">
+                <div class="receita">
+                    <img src="https://guiadacozinha.com.br/wp-content/uploads/2019/10/sorvete-caseiro-frutas-vermelhas-768x619.jpg" alt="">
+                </div>
+
+                <div class="corpoR">
+                    <h4>Sorvete de Frutas</h4>
+                    <p class="desc">Um sorvete refrescante e saudável, feito com frutas frescas e adoçado com mel.</p>
+                    <div class="acoesReceita">
+                        <a href="verreceita.html?id=2" class="btn btn-success">Ver Receita</a>
+                        <div class="tempdifi">
+                            <span class="badge bg-primary">20 min</span>
+                            <span class="badge bg-success">Fácil</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="cartao">
-            <div class="receita">
-                <img src="https://www.estadao.com.br/resizer/v2/DHVLA2T6TNGEDPJFVJARWXYFCQ.jpeg?quality=80&auth=7bbf38c5f526da9b50b4ee12b06639f71857d25f14ebf7643bd099be0dcd964a&width=720&height=410&focal=1590,1830" alt="">
-            </div>
-
-            <div class="corpoR">
-                <h4>Brownie Light</h4>
-                <p class="desc">Um brownie leve e delicioso, perfeito para um sobremesa saudável.</p>
-                <div class="acoesReceita">
-                    <a href="verreceita.html?id=1" class="btn btn-success">Ver Receita</a>
-                    <div class="tempdifi">
-                        <span class="badge bg-primary">20 min</span>
-                        <span class="badge bg-success">Fácil</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="cartao">
-            <div class="receita">
-                <img src="https://guiadacozinha.com.br/wp-content/uploads/2019/10/sorvete-caseiro-frutas-vermelhas-768x619.jpg" alt="">
-            </div>
-
-            <div class="corpoR">
-                <h4>Sorvete de Frutas</h4>
-                <p class="desc">Um sorvete refrescante e saudável, feito com frutas frescas e adoçado com mel.</p>
-                <div class="acoesReceita">
-                    <a href="verreceita.html?id=2" class="btn btn-success">Ver Receita</a>
-                    <div class="tempdifi">
-                        <span class="badge bg-primary">20 min</span>
-                        <span class="badge bg-success">Fácil</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
         <div class="modal fade" id="modalSaladaFrango" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -372,16 +388,60 @@
                 </div>
             </div>
         </div>
-</section>
-        <script>
-            function verRece() {
-                const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
-                const container = document.querySelector('.paginaR');
+    </section>
+    <section id="produtos" class="container py-5">
+        <h2 class="text-center mb-4" style="color: #4A7C3A;">
+            Nossos Produtos
+        </h2>
 
-                receitas.forEach((receita, indice) => {
-                    const card = document.createElement('div');
-                    card.className = 'cartao';
-                    card.innerHTML = `
+        <p class="text-center mb-4">
+            Conheça produtos que podem fazer parte de uma alimentação variada.
+        </p>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Granola</h5>
+                        <p class="card-text">
+                            Uma combinação de cereais e sementes que pode acompanhar frutas e iogurtes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Pasta de amendoim</h5>
+                        <p class="card-text">
+                            Pode ser usada em torradas, vitaminas e outras preparações.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Chia</h5>
+                        <p class="card-text">
+                            Uma semente que pode ser adicionada a frutas, iogurtes e receitas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        function verRece() {
+            const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
+            const container = document.querySelector('.paginaR');
+
+            receitas.forEach((receita, indice) => {
+                const card = document.createElement('div');
+                card.className = 'cartao';
+                card.innerHTML = `
                     <div class="receita">
                     <img src="${receita.imagem}" alt="">
                     </div>
@@ -399,21 +459,21 @@
                 </div>
             </div>
                 `;
-                    container.appendChild(card);
-                });
-            }
+                container.appendChild(card);
+            });
+        }
 
-            verRece();
+        verRece();
 
-            function verificarLogin(event) {
-                const emailCadastrado = localStorage.getItem('email');
-                if (!emailCadastrado) {
-                    event.preventDefault();
-                    alert('Você precisa estar cadastrado para publicar uma receita!');
-                    window.location.href = 'login.html';
-                }
+        function verificarLogin(event) {
+            const emailCadastrado = localStorage.getItem('email');
+            if (!emailCadastrado) {
+                event.preventDefault();
+                alert('Você precisa estar cadastrado para publicar uma receita!');
+                window.location.href = 'login.html';
             }
-        </script>
+        }
+    </script>
 </body>
 
 </html>
