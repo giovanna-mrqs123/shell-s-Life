@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(247, 246, 228);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .cartao {
+            width: 350px;
+            padding: 15px;
+            background-color: white ;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+        }
+
+        .cartao img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2e2e2a;
+            margin: 16px 0 4px;
+        }
+
+        p {
+            margin: 8px 0;
+            font-size: 16px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            width: 100%;
+        }
+
+        .tempdifi {
+            display: flex;
+            gap: 8px;
+            margin: 6px 0;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .badge.tempo {
+            background-color: #0d6efd;
+        }
+
+        .badge.dificuldade {
+            background-color: #198754;
+        }
+
+        .titulo-secao {
+            font-weight: 700;
+            margin-top: 14px;
+            margin-bottom: 2px;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #4a7c3a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            width: 100%;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3f6931;
+        }
+    </style>
+</head>
+<body>
+    <div class="cartao" id="cartRece"></div>
+
+    <script>
+        function verRece() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+
+            const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
+            const receita = receitas[id];
+
+            const cartao = document.getElementById('cartRece');
+
+            if (!receita) {
+                cartao.innerHTML = `
+                <p>Receita não encontrada.</p>
+                <button onclick="window.location.href='index.html'">Voltar</button>
+                `;
+
+                return;
+            }
+
+            cartao.innerHTML = `
+            <img src="${receita.imagem}" alt="${receita.nome}">
+            <h2>${receita.nome}</h2>
+            <p>${receita.desc}</p>
+
+            <div class="tempdifi">
+                <span class="badge tempo">${receita.tempo}</span>
+                <span class="badge dificuldade">${receita.dificuldade}</span>
+            </div>
+
+            <p class="titulo-secao">Ingredientes</p>
+            <p>${receita.ingredientes}</p>
+
+            <p class="titulo-secao">Modo de preparo</p>
+            <p>${receita.modoP}</p>
+
+            <button onclick="window.location.href='index.html'">Voltar</button>
+        `;
+    }
+
+    verRece();
+    </script>
+</body>
+</html>

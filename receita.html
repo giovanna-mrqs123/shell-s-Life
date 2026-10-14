@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(247, 246, 228);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }   
+
+        .cartao {
+            width: 350px;
+            padding: 15px;
+            background-color: white ;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: center;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2e2e2a;
+            margin: 20px;
+        }
+
+        p {
+            margin: 8px;
+            font-weight: 600;
+            font-size: 18px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+
+        input, select {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #4a7c3a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3f6931;
+        }
+
+        .nome,
+        .desc {
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="cartao">
+        <h2>Publicar receita</h2>
+
+        <p>Foto da Receita</p>
+        <input type="file" class="imagem" accept="image/*">
+
+        <p>Nome da receita</p>
+        <input type="text" class="nome" placeholder="Ex: Salada Saudável">
+
+        <p>Descrição</p>
+        <input type="text" class="desc" placeholder="Breve descrição da receita">
+
+        <p>Tempo de preparo</p>
+        <input type="text" class="tempo" placeholder="Ex: 20 min">
+
+        <p>Dificuldade</p>
+        <select id="dificuldade">
+            <option>Fácil</option>
+            <option>Média</option>
+            <option>Difícil</option>
+        </select>
+
+        <p>Ingredientes</p>
+        <input type="text" class="ingre" placeholder="Ex: 2 ovos, 1 xícara de leite">
+
+        <p>Modo de preparo</p>
+        <input type="text" class="modoP" placeholder="Ex: Misture os ovos com o leite e bata bem.">
+
+        <button onclick="publi()">Publicar receita</button>
+    </div>
+
+    <script>
+        function publi() {
+        const nome = document.querySelector('.nome').value.trim();
+        const desc = document.querySelector('.desc').value.trim();
+        const tempo = document.querySelector('.tempo').value.trim();
+        const dificuldade = document.querySelector('#dificuldade').value;
+        const arquivoImagem = document.querySelector('.imagem').files[0];
+        const ingredientes = document.querySelector('.ingre').value.trim();
+        const modoP = document.querySelector('.modoP').value.trim();
+
+        if (!nome || !desc || !arquivoImagem || !ingredientes || !modoP) {
+            alert('Por favor, preencha todos os campos.');
+            return;
+        }
+
+        const leitor = new FileReader();
+        leitor.onload = function () {
+            const novaReceita = {
+                nome: nome,
+                desc: desc,
+                tempo: tempo || '-- min',
+                dificuldade: dificuldade,
+                imagem: leitor.result,
+                ingredientes: ingredientes,
+                modoP: modoP
+            };
+
+            const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
+            receitas.push(novaReceita);
+            localStorage.setItem('receitas', JSON.stringify(receitas));
+
+            window.location.href = 'index.html';
+        };
+
+        leitor.readAsDataURL(arquivoImagem);
+    }
+    </script>   
+</body>
+</html>
