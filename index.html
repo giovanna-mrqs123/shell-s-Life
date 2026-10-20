@@ -475,9 +475,9 @@
         }
 
         const btnCadastrar = document.getElementById("btnCadastrar");
-        if (btnCadastrar && localStorage.getItem("cadastrado") === "true") {
-               btnCadastrar.style.display = "none";
-            }
+        if (btnCadastrar && localStorage.getItem("email")) {
+            btnCadastrar.style.display = "none";
+           }
     </script>
 </body>
 
