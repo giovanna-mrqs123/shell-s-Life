@@ -204,57 +204,55 @@
         <a href="index.html" id="voltarInicio">Voltar para o início</a>
     </div>
 
-    <script>
-        <script>
-    // Se já estiver cadastrado, não precisa ver esta página
-    if (localStorage.getItem("cadastrado") === "true") {
-        window.location.href = "index.html";
-    }
-
-    const nome = document.getElementById("nome");
-    const email = document.getElementById("email");
-    const senha = document.getElementById("senha");
-    const cadastrar = document.getElementById("cadastrar");
-    const mostrarSenha = document.getElementById("mostrarSenha");
-
-    cadastrar.addEventListener("click", function () {
-        const nomeValor = nome.value.trim();
-        const emailValor = email.value.trim();
-        const senhaValor = senha.value;
-
-        if (!nomeValor || !emailValor || !senhaValor) {
-            alert("Preencha todos os campos!");
-            return;
+       <script>
+        // Se já estiver cadastrado, vai direto para o início
+        if (localStorage.getItem("email")) {
+            window.location.href = "index.html";
         }
 
-        if (!email.checkValidity()) {
-            alert("Digite um e-mail válido!");
-            return;
-        }
+        const nome = document.getElementById("nome");
+        const email = document.getElementById("email");
+        const senha = document.getElementById("senha");
+        const cadastrar = document.getElementById("cadastrar");
+        const mostrarSenha = document.getElementById("mostrarSenha");
 
-        if (senhaValor.length < 6) {
-            alert("A senha deve ter pelo menos 6 caracteres!");
-            return;
-        }
+        cadastrar.addEventListener("click", function () {
+            const nomeValor = nome.value.trim();
+            const emailValor = email.value.trim();
+            const senhaValor = senha.value;
 
-        localStorage.setItem("nome", nomeValor);
-        localStorage.setItem("email", emailValor);
-        // Não salvar a senha em texto puro no localStorage.
-        localStorage.setItem("cadastrado", "true");
+            if (!nomeValor || !emailValor || !senhaValor) {
+                alert("Preencha todos os campos!");
+                return;
+            }
 
-        alert("Cadastro realizado!");
-        window.location.href = "index.html";
-    });
+            if (!email.checkValidity()) {
+                alert("Digite um e-mail válido!");
+                return;
+            }
 
-    mostrarSenha.addEventListener("click", function () {
-        if (senha.type === "password") {
-            senha.type = "text";
-            mostrarSenha.textContent = "Ocultar";
-        } else {
-            senha.type = "password";
-            mostrarSenha.textContent = "Mostrar";
-        }
-    });
-</script>
+            if (senhaValor.length < 6) {
+                alert("A senha deve ter pelo menos 6 caracteres!");
+                return;
+            }
+
+            localStorage.setItem("nome", nomeValor);
+            localStorage.setItem("email", emailValor);
+            localStorage.setItem("cadastrado", "true");
+
+            alert("Cadastro realizado!");
+            window.location.href = "index.html";
+        });
+
+        mostrarSenha.addEventListener("click", function () {
+            if (senha.type === "password") {
+                senha.type = "text";
+                mostrarSenha.textContent = "Ocultar";
+            } else {
+                senha.type = "password";
+                mostrarSenha.textContent = "Mostrar";
+            }
+        });
+    </script>
 </body>
 </html>
