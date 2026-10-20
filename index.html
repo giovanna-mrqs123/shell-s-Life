@@ -473,6 +473,10 @@
                 window.location.href = 'login.html';
             }
         }
+
+        if(localStorage.getItem("cadastrado") === "true"){
+           document.getElementById("btnCadastrar").style.display = "none";
+        }
     </script>
 </body>
 
