@@ -4,6 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minha Conta | Shell's Life</title>
+    
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        min-height: 100vh;
+        padding: 25px 16px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #F7F6E4, #e4edda);
+        color: #355e2b;
+    }
+
+    header {
+        max-width: 850px;
+        margin: 0 auto 30px;
+    }
+
+    #voltarInicio {
+        color: #355e2b;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    #voltarInicio:hover {
+        color: #6b8e5a;
+        text-decoration: underline;
+    }
+
+    main {
+        max-width: 750px;
+        margin: 0 auto;
+    }
+
+    main > h1 {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    main > p {
+        text-align: center;
+        color: #66745e;
+        margin-bottom: 30px;
+    }
+
+    section {
+        background: #ffffff;
+        padding: 28px;
+        margin-bottom: 22px;
+        border-radius: 20px;
+        border: 1px solid rgba(74, 124, 58, 0.15);
+        box-shadow: 0 8px 25px rgba(53, 94, 43, 0.10);
+    }
+
+    section h2 {
+        font-size: 22px;
+        margin-bottom: 22px;
+        color: #355e2b;
+    }
+
+    .campo {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+
+    input {
+        width: 100%;
+        padding: 13px;
+        border: 1px solid #d3dfca;
+        border-radius: 10px;
+        background: #f9fbf6;
+        color: #333333;
+        font-size: 15px;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #4a7c3a;
+        box-shadow: 0 0 0 3px rgba(74, 124, 58, 0.12);
+    }
+
+    input:disabled {
+        background: #f0f2eb;
+        color: #65705e;
+    }
+
+    button {
+        padding: 12px 18px;
+        border: none;
+        border-radius: 10px;
+        background: #4a7c3a;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #355e2b;
+        transform: translateY(-1px);
+    }
+
+    #sair {
+        background: #a94442;
+    }
+
+    #sair:hover {
+        background: #853633;
+    }
+
+    button[hidden] {
+        display: none;
+    }
+
+    @media (max-width: 500px) {
+        body {
+            padding: 20px 12px;
+        }
+
+        main > h1 {
+            font-size: 27px;
+        }
+
+        section {
+            padding: 22px 18px;
+        }
+    }
+</style>
 </head>
 <body>
 
