@@ -128,7 +128,7 @@ r<!DOCTYPE html>
                 .map(item => `<li>${item}</li>`)
                 .join('');
 
-            const modop = receita.modoP
+            const modoP = receita.modoP
                 .split('\n')
                 .filter(item => item.trim() !== '')
                 .map(item => `<li>${item}</li>`)
@@ -151,7 +151,7 @@ r<!DOCTYPE html>
             <ul>${ingre}</ul>
 
             <p class="titulo-secao">Modo de preparo</p>
-            <ol>${modop}</ol>
+            <ol>${modoP}</ol>
 
             <button onclick="window.location.href='index.html'">Voltar</button>
         `;
