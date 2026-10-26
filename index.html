@@ -364,14 +364,6 @@
                     <p class="desc">Um sorvete refrescante e saudável, feito com frutas frescas e adoçado com mel.</p>
                     <div class="acoesReceita">
                         <a href="verreceita.html?id=2" class="btn btn-success">Ver Receita</a>
-                            <button class="btn btn-danger"
-                               onclick="excluirReceita(${indice})">
-                               Excluir
-                            </button>
-                            <button class="btn btn-warning"
-                               onclick="editarReceita(${indice})">
-                               Editar
-                            </button>
                         <div class="tempdifi">
                             <span class="badge bg-primary">20 min</span>
                             <span class="badge bg-success">Fácil</span>
@@ -442,40 +434,6 @@
         </div>
     </section>
     <script>
-       function excluirReceita(indice) {
-         const confirmar = confirm("Tem certeza que deseja excluir esta receita?");
-
-         if (!confirmar) {
-             return;
-         }
-
-         const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
-
-         receitas.splice(indice, 1);
-
-         localStorage.setItem('receitas', JSON.stringify(receitas));
-
-         location.reload();
-        }
-
-        function editarReceita(indice) {
-          const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
-
-          const receita = receitas[indice];
-
-          const novoNome = prompt("Digite o novo nome da receita:", receita.nome);
-
-          if (novoNome === null || novoNome.trim() === "") {
-              return;
-          }
-
-          receita.nome = novoNome.trim();
-
-         localStorage.setItem('receitas', JSON.stringify(receitas));
-
-         location.reload();
-      }
-        
         function verRece() {
             const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
             const container = document.querySelector('.paginaR');
