@@ -122,6 +122,18 @@
                 <button onclick="window.location.href='index.html'">Voltar</button>
                 `;
 
+            const ingre = receita.ingredientes
+                .split('\n')
+                .filter(item => item.trim() !== '')
+                .map(item => `<li>${item}</li>`)
+                .join('');
+
+            const modop = receita.modoP
+                .split('\n')
+                .filter(item => item.trim() !== '')
+                .map(item => `<li>${item}</li>`)
+                .join('');    
+
                 return;
             }
 
@@ -136,10 +148,10 @@
             </div>
 
             <p class="titulo-secao">Ingredientes</p>
-            <p>${receita.ingredientes}</p>
+            <ul>${ingre}</ul>
 
             <p class="titulo-secao">Modo de preparo</p>
-            <p>${receita.modoP}</p>
+            <ol>${modop}</ol>
 
             <button onclick="window.location.href='index.html'">Voltar</button>
         `;
