@@ -107,6 +107,40 @@
     <div class="cartao" id="cartRece"></div>
 
     <script>
+        function excluirReceita(indice) {
+         const confirmar = confirm("Tem certeza que deseja excluir esta receita?");
+
+         if (!confirmar) {
+             return;
+         }
+
+         const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
+
+         receitas.splice(indice, 1);
+
+         localStorage.setItem('receitas', JSON.stringify(receitas));
+
+         location.reload();
+        }
+
+        function editarReceita(indice) {
+          const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
+
+          const receita = receitas[indice];
+
+          const novoNome = prompt("Digite o novo nome da receita:", receita.nome);
+
+          if (novoNome === null || novoNome.trim() === "") {
+              return;
+          }
+
+          receita.nome = novoNome.trim();
+
+         localStorage.setItem('receitas', JSON.stringify(receitas));
+
+         location.reload();
+      }
+        
         function verRece() {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
