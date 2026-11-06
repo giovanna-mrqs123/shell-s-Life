@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,11 +15,11 @@
             min-height: 100vh;
             margin: 0;
         }
-
+        
         .cartao {
             width: 350px;
             padding: 15px;
-            background-color: white ;
+            background-color: white;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             border-radius: 10%;
             display: flex;
@@ -26,54 +27,54 @@
             justify-content: start;
             align-items: center;
         }
-
+        
         .cartao img {
             width: 100%;
             height: 220px;
             object-fit: cover;
             border-radius: 12px;
         }
-
+        
         h2 {
             text-align: center;
             color: #2e2e2a;
             margin: 16px 0 4px;
         }
-
+        
         p {
             margin: 8px 0;
             font-size: 16px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             width: 100%;
         }
-
+        
         .tempdifi {
             display: flex;
             gap: 8px;
             margin: 6px 0;
         }
-
+        
         .badge {
             padding: 5px 10px;
             border-radius: 8px;
             color: white;
             font-size: 14px;
         }
-
+        
         .badge.tempo {
             background-color: #0d6efd;
         }
-
+        
         .badge.dificuldade {
             background-color: #198754;
         }
-
+        
         .titulo-secao {
             font-weight: 700;
             margin-top: 14px;
             margin-bottom: 2px;
         }
-
+        
         button {
             margin-top: 20px;
             background-color: #4a7c3a;
@@ -86,69 +87,76 @@
             font-weight: 600;
             cursor: pointer;
         }
-
+        
         button:hover {
             background-color: #3f6931;
         }
-
-        ul, ol {
-            width: 100%;
-            padding-left: 22px;
-            margin: 6px 0;
-        }
-
-        li {
-            margin-bottom: 6px;
-            font-size: 16px;
-        }
     </style>
 </head>
+
 <body>
     <div class="cartao" id="cartRece"></div>
-     <button class="btn btn-danger"
-      onclick="excluirReceita(${indice})">
-      Excluir
-    </button>
-    <button class="btn btn-warning"
-      onclick="editarReceita(${indice})">
-      Editar
-    </button>
 
     <script>
-        function excluirReceita(indice) {
-         const confirmar = confirm("Tem certeza que deseja excluir esta receita?");
+        function excluirReceita() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
 
-         if (!confirmar) {
-             return;
-         }
+            const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
 
-         const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
+            if (id === null || !Number.isInteger(Number(id)) ||
+                Number(id) < 0 || !receitas[Number(id)]) {
+                alert('Receita não encontrada.');
+                return;
+            }
 
-         receitas.splice(indice, 1);
+            if (!confirm('Deseja excluir esta receita?')) return;
 
-         localStorage.setItem('receitas', JSON.stringify(receitas));
+            receitas.splice(Number(id), 1);
+            localStorage.setItem('receitas', JSON.stringify(receitas));
 
-         location.reload();
+            alert('Receita excluída!');
+            window.location.href = 'index.html';
         }
 
-        function editarReceita(indice) {
-          const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
 
-          const receita = receitas[indice];
+        function editarReceita() {
+            const parametros = new URLSearchParams(window.location.search);
+            const id = Number(parametros.get("id"));
 
-          const novoNome = prompt("Digite o novo nome da receita:", receita.nome);
+            let receitas = JSON.parse(localStorage.getItem("receitas")) || [];
 
-          if (novoNome === null || novoNome.trim() === "") {
-              return;
-          }
+            if (id === null || !receitas[Number(id)]) {
+                alert("Receita não encontrada!");
+                return;
+            }
 
-          receita.nome = novoNome.trim();
+            const receita = receitas[Number(id)];
 
-         localStorage.setItem('receitas', JSON.stringify(receitas));
+            const novoNome = prompt(
+                "Digite o novo nome da receita:",
+                receitas[id].nome
+            );
 
-         location.reload();
-      }
-        
+            if (novoNome === null) {
+                return;
+            }
+
+            if (novoNome.trim() === "") {
+                alert("O nome não pode ficar vazio!");
+                return;
+            }
+
+            receita.nome = novoNome.trim();
+
+            localStorage.setItem("receitas", JSON.stringify(receitas));
+
+            alert("Nome da receita editada com sucesso!");
+
+            verRece();
+        }
+
+
         function verRece() {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
@@ -163,18 +171,6 @@
                 <p>Receita não encontrada.</p>
                 <button onclick="window.location.href='index.html'">Voltar</button>
                 `;
-            }
-            const ingre = receita.ingredientes
-                .split('\n')
-                .filter(item => item.trim() !== '')
-                .map(item => `<li>${item}</li>`)
-                .join('');
-
-            const modop = receita.modoP
-                .split('\n')
-                .filter(item => item.trim() !== '')
-                .map(item => `<li>${item}</li>`)
-                .join('');    
 
                 return;
             }
@@ -190,16 +186,21 @@
             </div>
 
             <p class="titulo-secao">Ingredientes</p>
-            <ul>${ingre}</ul>
+            <p>${receita.ingredientes}</p>
 
             <p class="titulo-secao">Modo de preparo</p>
-            <ol>${modoP}</ol>
+            <p>${receita.modoP}</p>
 
-            <button onclick="window.location.href='index.html'">Voltar</button>
+            <div class="acoes">
+               <button onclick="editarReceita()">Editar receita</button>
+               <button onclick="excluirReceita()">Excluir receita</button>
+               <button onclick="window.location.href='index.html'">Voltar</button>
+            </div>
         `;
-    }
+        }
 
-    verRece();
+        verRece();
     </script>
 </body>
+
 </html>
