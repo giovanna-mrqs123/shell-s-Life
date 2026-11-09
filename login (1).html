@@ -204,7 +204,7 @@
         <a href="index.html" id="voltarInicio">Voltar para o início</a>
     </div>
 
-    <script>
+       <script>
         // Se já estiver cadastrado, vai direto para o início
         if (localStorage.getItem("email")) {
             window.location.href = "index.html";
@@ -216,7 +216,7 @@
         const cadastrar = document.getElementById("cadastrar");
         const mostrarSenha = document.getElementById("mostrarSenha");
 
-        cadastrar.addEventListener("click", function() {
+        cadastrar.addEventListener("click", function () {
             const nomeValor = nome.value.trim();
             const emailValor = email.value.trim();
             const senhaValor = senha.value;
@@ -244,7 +244,7 @@
             window.location.href = "index.html";
         });
 
-        mostrarSenha.addEventListener("click", function() {
+        mostrarSenha.addEventListener("click", function () {
             if (senha.type === "password") {
                 senha.type = "text";
                 mostrarSenha.textContent = "Ocultar";
@@ -255,5 +255,4 @@
         });
     </script>
 </body>
-
 </html>
