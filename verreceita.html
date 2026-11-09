@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
 
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver receita | Shell's Life</title>
+
     <style>
         body {
             display: flex;
@@ -15,7 +16,7 @@
             min-height: 100vh;
             margin: 0;
         }
-        
+
         .cartao {
             width: 350px;
             padding: 15px;
@@ -27,54 +28,65 @@
             justify-content: start;
             align-items: center;
         }
-        
+
         .cartao img {
             width: 100%;
             height: 220px;
             object-fit: cover;
             border-radius: 12px;
         }
-        
+
         h2 {
             text-align: center;
             color: #2e2e2a;
             margin: 16px 0 4px;
         }
-        
+
         p {
             margin: 8px 0;
             font-size: 16px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             width: 100%;
         }
-        
+        .voltar {
+            align-self: flex-start;
+            text-decoration: none;
+            color: #4a7c3a;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .voltar:hover {
+            color: #3f6931;
+        }
+
         .tempdifi {
             display: flex;
             gap: 8px;
             margin: 6px 0;
         }
-        
+
         .badge {
             padding: 5px 10px;
             border-radius: 8px;
             color: white;
             font-size: 14px;
         }
-        
+
         .badge.tempo {
             background-color: #0d6efd;
         }
-        
+
         .badge.dificuldade {
             background-color: #198754;
         }
-        
+
         .titulo-secao {
             font-weight: 700;
             margin-top: 14px;
             margin-bottom: 2px;
         }
-        
+
         button {
             margin-top: 20px;
             background-color: #4a7c3a;
@@ -87,75 +99,62 @@
             font-weight: 600;
             cursor: pointer;
         }
-        
+
         button:hover {
             background-color: #3f6931;
+        }
+
+        ul, ol {
+            width: 100%;
+            padding-left: 22px;
+            margin: 6px 0;
+        }
+
+        li {
+            margin-bottom: 6px;
+            font-size: 16px;
         }
     </style>
 </head>
 
 <body>
+
     <div class="cartao" id="cartRece"></div>
 
     <script>
-        function excluirReceita() {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
+        function excluirReceita(indice) {
+            const confirmar = confirm("Tem certeza que deseja excluir esta receita?");
+
+            if (!confirmar) {
+                return;
+            }
 
             const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
 
-            if (id === null || !Number.isInteger(Number(id)) ||
-                Number(id) < 0 || !receitas[Number(id)]) {
-                alert('Receita não encontrada.');
-                return;
-            }
+            receitas.splice(indice, 1);
 
-            if (!confirm('Deseja excluir esta receita?')) return;
-
-            receitas.splice(Number(id), 1);
             localStorage.setItem('receitas', JSON.stringify(receitas));
 
-            alert('Receita excluída!');
-            window.location.href = 'index.html';
+            location.reload();
         }
 
+        function editarReceita(indice) {
+            const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
 
-        function editarReceita() {
-            const parametros = new URLSearchParams(window.location.search);
-            const id = Number(parametros.get("id"));
+            const receita = receitas[indice];
 
-            let receitas = JSON.parse(localStorage.getItem("receitas")) || [];
+            const novoNome = prompt("Digite o novo nome da receita:", receita.nome);
 
-            if (id === null || !receitas[Number(id)]) {
-                alert("Receita não encontrada!");
-                return;
-            }
-
-            const receita = receitas[Number(id)];
-
-            const novoNome = prompt(
-                "Digite o novo nome da receita:",
-                receitas[id].nome
-            );
-
-            if (novoNome === null) {
-                return;
-            }
-
-            if (novoNome.trim() === "") {
-                alert("O nome não pode ficar vazio!");
+            if (novoNome === null || novoNome.trim() === "") {
                 return;
             }
 
             receita.nome = novoNome.trim();
 
-            localStorage.setItem("receitas", JSON.stringify(receitas));
+            localStorage.setItem('receitas', JSON.stringify(receitas));
 
-            alert("Nome da receita editada com sucesso!");
-
-            verRece();
+            location.reload();
         }
-
 
         function verRece() {
             const params = new URLSearchParams(window.location.search);
@@ -168,39 +167,72 @@
 
             if (!receita) {
                 cartao.innerHTML = `
-                <p>Receita não encontrada.</p>
-                <button onclick="window.location.href='index.html'">Voltar</button>
+                    <p>Receita não encontrada.</p>
+                    <button onclick="window.location.href='index.html'">Voltar</button>
                 `;
-
                 return;
             }
 
+            const ingre = receita.ingredientes
+                .split('\n')
+                .filter(item => item.trim() !== '')
+                .map(item => `<li>${item}</li>`)
+                .join('');
+
+            const modop = receita.modoP
+                .split('\n')
+                .filter(item => item.trim() !== '')
+                .map(item => `<li>${item}</li>`)
+                .join('');
+
             cartao.innerHTML = `
-            <img src="${receita.imagem}" alt="${receita.nome}">
-            <h2>${receita.nome}</h2>
-            <p>${receita.desc}</p>
+                <a href="index.html" class="voltar">Voltar</a>
+                <img src="${receita.imagem}" alt="${receita.nome}">
+                <h2>${receita.nome}</h2>
+                <p>${receita.desc}</p>
 
-            <div class="tempdifi">
-                <span class="badge tempo">${receita.tempo}</span>
-                <span class="badge dificuldade">${receita.dificuldade}</span>
-            </div>
+                <div class="tempdifi">
+                    <span class="badge tempo">${receita.tempo}</span>
+                    <span class="badge dificuldade">${receita.dificuldade}</span>
+                </div>
 
-            <p class="titulo-secao">Ingredientes</p>
-            <p>${receita.ingredientes}</p>
+                <p class="titulo-secao">Ingredientes</p>
+                <ul>${ingre}</ul>
 
-            <p class="titulo-secao">Modo de preparo</p>
-            <p>${receita.modoP}</p>
+                <p class="titulo-secao">Modo de preparo</p>
+                <ol>${modop}</ol>
 
-            <div class="acoes">
-               <button onclick="editarReceita()">Editar receita</button>
-               <button onclick="excluirReceita()">Excluir receita</button>
-               <button onclick="window.location.href='index.html'">Voltar</button>
-            </div>
-        `;
+                <button onclick="editarReceita(${id})">Editar</button>
+                <button onclick="excluirReceita(${id})">Excluir</button>
+                <button onclick="adicionarCaderno(${id})">Adicionar ao caderno</button>
+            `;
         }
 
+        function adicionarCaderno (id) {
+            const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
+            const caderno = JSON.parse(localStorage.getItem('caderno')) || [];
+
+            const receita = receitas[id];
+            const existe = caderno.some(item => item.id == id);
+
+
+            if(existe){
+                alert("Essa receita já existe no seu caderno!");
+                return;
+            }
+
+            caderno.push ({
+                id: id,
+                imagem: receita.imagem,
+                nome: receita.nome,
+                desc: receita.desc
+            });
+
+            localStorage.setItem('caderno', JSON.stringify(caderno));
+            alert("Receita adicionada ao caderno!");
+        }
         verRece();
     </script>
-</body>
 
+</body>
 </html>
