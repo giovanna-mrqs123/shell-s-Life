@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
             min-height: 100vh;
             margin: 0;
         }
-
+        
         .cartao {
             width: 350px;
             padding: 15px;
@@ -28,26 +28,27 @@
             justify-content: start;
             align-items: center;
         }
-
+        
         .cartao img {
             width: 100%;
             height: 220px;
             object-fit: cover;
             border-radius: 12px;
         }
-
+        
         h2 {
             text-align: center;
             color: #2e2e2a;
             margin: 16px 0 4px;
         }
-
+        
         p {
             margin: 8px 0;
             font-size: 16px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             width: 100%;
         }
+        
         .voltar {
             align-self: flex-start;
             text-decoration: none;
@@ -55,38 +56,38 @@
             font-weight: 600;
             margin-bottom: 12px;
         }
-
+        
         .voltar:hover {
             color: #3f6931;
         }
-
+        
         .tempdifi {
             display: flex;
             gap: 8px;
             margin: 6px 0;
         }
-
+        
         .badge {
             padding: 5px 10px;
             border-radius: 8px;
             color: white;
             font-size: 14px;
         }
-
+        
         .badge.tempo {
             background-color: #0d6efd;
         }
-
+        
         .badge.dificuldade {
             background-color: #198754;
         }
-
+        
         .titulo-secao {
             font-weight: 700;
             margin-top: 14px;
             margin-bottom: 2px;
         }
-
+        
         button {
             margin-top: 20px;
             background-color: #4a7c3a;
@@ -99,17 +100,18 @@
             font-weight: 600;
             cursor: pointer;
         }
-
+        
         button:hover {
             background-color: #3f6931;
         }
-
-        ul, ol {
+        
+        ul,
+        ol {
             width: 100%;
             padding-left: 22px;
             margin: 6px 0;
         }
-
+        
         li {
             margin-bottom: 6px;
             font-size: 16px;
@@ -135,7 +137,12 @@
 
             localStorage.setItem('receitas', JSON.stringify(receitas));
 
-            location.reload();
+            let caderno = JSON.parse(localStorage.getItem('caderno')) || [];
+            caderno = caderno.filter(item => item.id != indice);
+            localStorage.setItem('caderno', JSON.stringify(caderno));
+
+            alert("Receita excluída com sucesso!");
+            window.location.href = 'index.html';
         }
 
         function editarReceita(indice) {
@@ -208,7 +215,7 @@
             `;
         }
 
-        function adicionarCaderno (id) {
+        function adicionarCaderno(id) {
             const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
             const caderno = JSON.parse(localStorage.getItem('caderno')) || [];
 
@@ -216,12 +223,12 @@
             const existe = caderno.some(item => item.id == id);
 
 
-            if(existe){
+            if (existe) {
                 alert("Essa receita já existe no seu caderno!");
                 return;
             }
 
-            caderno.push ({
+            caderno.push({
                 id: id,
                 imagem: receita.imagem,
                 nome: receita.nome,
@@ -235,4 +242,5 @@
     </script>
 
 </body>
+
 </html>
