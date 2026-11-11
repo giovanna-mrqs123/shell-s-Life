@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Adicionar Produto | Shell's Life</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+            background: linear-gradient(135deg, #f7f6e4, #e4edda);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            isolation: isolate;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("download (1).png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: min(85vw, 700px);
+            opacity: 0.35;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .cartao {
+            width: 100%;
+            max-width: 480px;
+            padding: 32px;
+            background-color: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 12px 35px rgba(53, 94, 43, 0.14);
+            border: 1px solid rgba(74, 124, 58, 0.15);
+            border-radius: 24px;
+        }
+        
+        h2 {
+            text-align: center;
+            color: #355e2b;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 8px 0 28px;
+            letter-spacing: -0.5px;
+        }
+        
+        h2::after {
+            content: "";
+            display: block;
+            width: 55px;
+            height: 4px;
+            margin: 12px auto 0;
+            background-color: #8aaa72;
+            border-radius: 10px;
+        }
+
+        #infonutri {
+            margin-top: 40px;
+        }
+        
+        p {
+            margin: 18px 0 8px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #355e2b;
+        }
+        
+        input,
+        select,
+        textarea {
+            display: block;
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #d3dfca;
+            border-radius: 12px;
+            background-color: #f9fbf6;
+            color: #333333;
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #4a7c3a;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(74, 124, 58, 0.12);
+        }
+        
+        textarea {
+            min-height: 90px;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        
+        .imagem {
+            padding: 14px;
+            border: 2px dashed #a7c795;
+            background-color: #f9fbf6;
+            color: #355e2b;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        #previaImagem {
+            display: none;
+            width: 100%;
+            max-height: 260px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-top: 12px;
+        }
+        
+        .dica {
+            margin-top: 7px;
+            color: #71816a;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        
+        button {
+            width: 100%;
+            margin-top: 26px;
+            padding: 14px;
+            background-color: #4a7c3a;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 12px rgba(53, 94, 43, 0.15);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #355e2b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(53, 94, 43, 0.22);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:focus-visible {
+            outline: 3px solid #a7c795;
+            outline-offset: 3px;
+        }
+        
+        .voltar {
+            display: block;
+            margin-top: 18px;
+            text-align: center;
+            color: #355e2b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .voltar:hover {
+            color: #6b8e5a;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 18px 12px;
+            }
+            .cartao {
+                padding: 24px 18px;
+                border-radius: 20px;
+            }
+            h2 {
+                font-size: 25px;
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+        }
+
+        th {
+            font-size: 13px;
+            color: #355e2b;
+            text-align: center;
+            padding-bottom: 8px;
+        }
+
+        td {
+            padding: 4px 3px;
+            font-size: 14px;
+        }
+
+        td:first-child {
+            width: 40%;
+        }
+
+        td input {
+            min-width: 0;
+            padding: 9px 4px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        td input::-webkit-inner-spin-button,
+        td input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        td input:disabled {
+            background-color: #eceee8;
+        }
+
+        .negrito {
+            font-weight: 600;
+        }
+
+        .identado {
+            padding-left: 18px;
+        }
+
+        .identado2 {
+            padding-left: 32px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+     <main class="cartao">
+        <h2>Adicionar Produto</h2>
+
+        <form id="formProduto">
+
+            <p>Foto do Produto</p>
+            <input type="file" class="imagem" id="imagem" accept="image/*" required>
+
+            <p class="dica">Escolha uma foto para mostrar seu produto.</p>
+
+            <img id="previaImagem" alt="Prévia da foto do produto">
+
+            <p>Nome do produto</p>
+            <input type="text" class="nome" placeholder="Ex.: Barrinha de Cereal" maxlength="100" required>
+
+
+            <p>Descrição</p>
+            <textarea class="desc" placeholder="Conte um pouco sobre esse produto..." rows="3" maxlength="500" required></textarea>
+
+            <div class="tabela-nutricional">
+                <h2 id="infonutri">Informação Nutricional</h2>
+
+                <p>Porção</p>
+                <input type="text" id="porcao" placeholder="Ex.: 30 g (1/4 de xícara)">
+
+                <p>Porções por embalagem</p>
+                <input type="number" id="porcoesEmbalagem" min="1" placeholder="Ex.: 10">
+
+                 <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>100 g</th>
+                            <th id="colPorcao">Porção</th>
+                            <th>% VD (*)</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="corpoTabela">
+                        <tr data-id="energia">
+                            <td class="negrito">Valor energético (kcal)</td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                        </tr>
+
+                        <tr data-id="carboidratos">
+                            <td class="negrito">Carboidratos (g)</td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                        </tr>
+
+                        <tr data-id="acucaresTotais">
+                            <td class="indentado">Açúcares totais (g)</td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" disabled placeholder="-"></td>
+                        </tr>
+
+                        <tr data-id="acucaresAdicionados">
+                            <td class="indentado2">Açúcares adicionados (g)</td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                        </tr>
+
+                        <tr data-id="proteinas">
+                            <td class="negrito">Proteínas (g)</td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                        </tr>
+
+                        <tr data-id="gordurasTotais">
+                            <td class="negrito">Gorduras totais (g)</td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                        </tr>
+
+                        <tr data-id="gordurasSaturadas">
+                            <td class="indentado">Gorduras saturadas (g)</td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                        </tr>
+
+                        <tr data-id="gordurasTrans">
+                            <td class="indentado">Gorduras trans (g)</td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                        </tr>
+
+                        <tr data-id="fibra">
+                            <td class="negrito">Fibra alimentar (g)</td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                        </tr>
+
+                        <tr data-id="sodio">
+                            <td class="negrito">Sódio (mg)</td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                            <td><input type="number" min="0" step="any" placeholder="0"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="submit">Publicar produto</button>
+
+            <a href="index.html" class="voltar">
+                Voltar para o início
+            </a>
+
+        </form>
+    </main>
+
+     <script src="sistema.js"></script>
+    <script>
+        // Só o Sistema pode adicionar produtos
+        if (!ehSistema()) {
+            alert('Apenas o Sistema pode adicionar produtos.');
+            window.location.href = 'index.html';
+        }
+
+        const formulario = document.querySelector('#formProduto');
+        const campoImagem = document.querySelector('#imagem');
+        const previaImagem = document.querySelector('#previaImagem');
+
+        let urlPreviaAtual = null;
+
+        // O título da coluna do meio acompanha a porção digitada
+        document.querySelector('#porcao').addEventListener('input', function() {
+            document.querySelector('#colPorcao').textContent = this.value.trim() || 'Porção';
+        });
+
+        // Lê os campos da tabela nutricional que estão no HTML
+        function lerTabela() {
+            const porcao = document.querySelector('#porcao').value.trim();
+            const porcoesEmbalagem = document.querySelector('#porcoesEmbalagem').value.trim();
+
+            if (!porcao || !porcoesEmbalagem) {
+                alert('Preencha a porção e as porções por embalagem.');
+                return null;
+            }
+
+            const valores = {};
+            const linhas = document.querySelectorAll('#corpoTabela tr');
+
+            for (const linha of linhas) {
+                const campos = linha.querySelectorAll('input');
+                const por100 = campos[0].value;
+                const porPorcao = campos[1].value;
+                const vd = campos[2].value;
+
+                // 0 é um valor válido, só não pode ficar vazio
+                if (por100 === '' || porPorcao === '') {
+                    alert('Preencha as colunas 100 g e porção de: ' + linha.cells[0].textContent);
+                    return null;
+                }
+
+                valores[linha.dataset.id] = {
+                    por100: por100,
+                    porPorcao: porPorcao,
+                    vd: vd
+                };
+            }
+
+            return {
+                porcao: porcao,
+                porcoesEmbalagem: porcoesEmbalagem,
+                valores: valores
+            };
+        }
+
+        // Mostra a prévia da foto selecionada
+        campoImagem.addEventListener('change', function() {
+            const arquivo = this.files[0];
+
+            if (urlPreviaAtual) {
+                URL.revokeObjectURL(urlPreviaAtual);
+                urlPreviaAtual = null;
+            }
+
+            previaImagem.removeAttribute('src');
+            previaImagem.style.display = 'none';
+
+            if (!arquivo) {
+                return;
+            }
+
+            if (!arquivo.type.startsWith('image/')) {
+                alert('Selecione um arquivo de imagem válido.');
+                this.value = '';
+                return;
+            }
+
+            urlPreviaAtual = URL.createObjectURL(arquivo);
+            previaImagem.src = urlPreviaAtual;
+            previaImagem.style.display = 'block';
+        });
+
+        // Publica o produto
+        formulario.addEventListener('submit', function(evento) {
+            evento.preventDefault();
+
+            if (!ehSistema()) {
+                return;
+            }
+
+            const nome = document.querySelector('.nome').value.trim();
+            const descricao = document.querySelector('.desc').value.trim();
+            const arquivoImagem = campoImagem.files[0];
+
+            if (!nome || !descricao || !arquivoImagem) {
+                alert('Preencha todos os campos corretamente.');
+                return;
+            }
+
+            if (!arquivoImagem.type.startsWith('image/')) {
+                alert('Selecione um arquivo de imagem válido.');
+                return;
+            }
+
+            const tabelaNutricional = lerTabela();
+
+            if (!tabelaNutricional) {
+                return;
+            }
+
+            const leitor = new FileReader();
+
+            leitor.onload = function() {
+                try {
+                    const produtosSalvos = localStorage.getItem('produtos');
+                    const produtos = produtosSalvos ?
+                        JSON.parse(produtosSalvos) : [];
+
+                    if (!Array.isArray(produtos)) {
+                        throw new Error('Os dados salvos não são uma lista.');
+                    }
+
+                    const novoProduto = {
+                        nome: nome,
+                        descricao: descricao,
+                        imagem: leitor.result,
+                        tabelaNutricional: tabelaNutricional
+                    };
+
+                    produtos.push(novoProduto);
+
+                    localStorage.setItem(
+                        'produtos',
+                        JSON.stringify(produtos)
+                    );
+
+                    alert('Produto publicado com sucesso!');
+                    window.location.href = 'index.html#produtos';
+
+                } catch (erro) {
+                    console.error('Erro ao salvar o produto:', erro);
+                    alert(
+                        'Não foi possível salvar o produto. ' +
+                        'Verifique o espaço disponível no navegador e tente novamente.'
+                    );
+                }
+            };
+
+            leitor.onerror = function() {
+                alert('Não foi possível ler a foto. Tente selecionar outra imagem.');
+            };
+
+            leitor.readAsDataURL(arquivoImagem);
+        });
+    </script>
+
+</body>
+
+</html>
