@@ -354,50 +354,21 @@
             </div>
         </div>
     </section>
+
     <section id="produtos" class="container py-5">
         <h2 class="text-center mb-4" style="color: #4A7C3A;">
             Nossos Produtos
         </h2>
 
-        <p class="text-center mb-4">
-            Conheça produtos que podem fazer parte de uma alimentação variada.
-        </p>
+        <p class="text-center mb-4">Conheça produtos que podem fazer parte de uma alimentação variada.</p>
 
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Granola</h5>
-                        <p class="card-text">
-                            Uma combinação de cereais e sementes que pode acompanhar frutas e iogurtes.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Pasta de amendoim</h5>
-                        <p class="card-text">
-                            Pode ser usada em torradas, vitaminas e outras preparações.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Chia</h5>
-                        <p class="card-text">
-                            Uma semente que pode ser adicionada a frutas, iogurtes e receitas.
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div class="text-center">
+            <a href="produto.html" id="btnAdicionarProduto" class="btn btn-success" style="display: none; margin-right: 0;">Adicionar produto</a>
         </div>
+
+        <div class="paginaR" id="listaProdutos"></div>
     </section>
+
     <script>
         function verRece() {
             const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
