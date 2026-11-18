@@ -1,3 +1,11 @@
+<?php
+include 'conecta.php';
+
+// Busca todas as receitas
+$sql = "SELECT * FROM receita";
+$resultado = mysqli_query($conexao, $sql);
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -332,24 +340,34 @@
 
     <section id="receitas">
         <div class="paginaR">
+             <?php
+                while($receita = mysqli_fetch_assoc($resultado)) {
+             ?>
             <div class="cartao">
                 <div class="receita">
-                    <img src="https://p2.trrsf.com/image/fget/cf/1200/1200/middle/images.terra.com/2022/02/14/233248378-receitas-saudaveis-faceis-deliciosas-jantar.jpg" alt="">
+                    <img src="<?php echo $receita['imagem']; ?>" alt="">
                 </div>
 
                 <div class="corpoR">
-                    <h4>Salada com Frango</h4>
-                    <p class="desc">Uma salada refrescante e saborosa, com pedaços de frango grelhado e molho de orégano.</p>
+                    <h4><?php echo $receita['nome']; ?></h4>
+                    <p class="desc"><?php echo $receita['descricao']; ?></p>
                     <div class="acoesReceita">
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalSaladaFrango">Ver Receita</button>
-                        <button class="btn btn-outline-danger" type="button" data-curtida-id="salada-frango" onclick="curtirReceita('salada-frango')"> ♡ </button>
+                        <a href="verreceita.php?id=<?php echo $receita['id']; ?>" class="btn btn-success">Ver Receita</a>
+                        <button class="btn btn-outline-danger" type="button" data-curtida-id="receita-<?php echo $receita['id']; ?>" onclick="curtirReceita('receita-<?php echo $receita['id']; ?>')"> ♡ </button>
                         <div class="tempdifi">
-                            <span class="badge bg-primary">20 min</span>
-                            <span class="badge bg-success">Fácil</span>
+                            <span class="badge bg-primary">
+                                <?php echo $receita['tempo']; ?> min
+                            </span>
+                            <span class="badge bg-success">
+                                <?php echo $receita['dificuldade']; ?>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
+            <?php
+                }
+            ?>
         </div>
 
 
@@ -415,38 +433,6 @@
         </div>
     </section>
     <script>
-        function verRece() {
-            const receitas = JSON.parse(localStorage.getItem('receitas')) || [];
-            const container = document.querySelector('.paginaR');
-
-            receitas.forEach((receita, indice) => {
-                const card = document.createElement('div');
-                card.className = 'cartao';
-                card.innerHTML = `
-                    <div class="receita">
-                    <img src="${receita.imagem}" alt="">
-                    </div>
-
-            <div class="corpoR">
-                <h4>${receita.nome}</h4>
-                <p class="desc">${receita.desc}</p>
-                <div class="acoesReceita">
-                    <a href="verreceita.html?id=${indice}" class="btn btn-success">Ver Receita</a>
-                    <button class="btn btn-outline-danger" type="button" data-curtida-id="receita-${indice}" onclick="curtirReceita('receita-${indice}')"> ♡ </button>
-
-                        <div class="tempdifi">
-                            <span class="badge bg-primary">${receita.tempo}</span>
-                            <span class="badge bg-success">${receita.dificuldade}</span>
-                        </div>
-                </div>
-            </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        verRece();
-
         function curtirReceita(id) {
             let curtidas = JSON.parse(localStorage.getItem('curtidas')) || [];
 
@@ -490,6 +476,7 @@
         if (btnCadastrar && localStorage.getItem("email")) {
             btnCadastrar.style.display = "none";
         }
+        atualizarBotoesCurtida();
     </script>
 </body>
 
