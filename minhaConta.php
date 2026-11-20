@@ -1,0 +1,376 @@
+<?php
+session_start();
+include 'conecta.php';
+
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login (1).html");
+    exit;
+}
+
+$usuario_id = $_SESSION['usuario_id'];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+
+    $sqlAtualizar = "UPDATE usuario SET nome = '$nome', email = '$email' WHERE id = $usuario_id";
+    $resultadoAtualizar = mysqli_query($conexao, $sqlAtualizar);
+
+    if ($resultadoAtualizar) {
+        header("Location: minhaConta.php");
+        exit;
+    } else {
+        echo "Erro ao atualizar os dados!";
+    }
+}
+
+$sql = "SELECT * FROM usuario WHERE id = $usuario_id";
+$resultado = mysqli_query($conexao, $sql);
+
+$usuario = mysqli_fetch_assoc($resultado);
+?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta | Shell's Life</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 30px 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f7f6e4, #e4edda);
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url("download (1).png");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: min(85vw, 700px);
+            opacity: 0.20;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            max-width: 850px;
+            margin: 0 auto 30px;
+        }
+
+        #voltarInicio {
+            color: #355e2b;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        #voltarInicio:hover {
+            color: #6b8e5a;
+            text-decoration: underline;
+        }
+
+        main {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        main>h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        main>p {
+            text-align: center;
+            color: #66745e;
+            margin-bottom: 30px;
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.96);
+            padding: 32px;
+            margin-bottom: 24px;
+            border-radius: 26px;
+            border: 1px solid rgba(74, 124, 58, 0.15);
+            box-shadow: 0 15px 40px rgba(53, 94, 43, 0.14);
+            transition: box-shadow 0.3s ease;
+        }
+
+        section:hover {
+            box-shadow: 0 18px 45px rgba(53, 94, 43, 0.20);
+        }
+
+        section h2 {
+            font-size: 22px;
+            margin-bottom: 22px;
+            color: #355e2b;
+        }
+
+        .campo {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d3dfca;
+            border-radius: 10px;
+            background: #f9fbf6;
+            color: #333333;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #4a7c3a;
+            box-shadow: 0 0 0 3px rgba(74, 124, 58, 0.12);
+        }
+
+        input:disabled {
+            background: #f0f2eb;
+            color: #65705e;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            background: #4a7c3a;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #355e2b;
+            transform: translateY(-1px);
+        }
+
+        #sair {
+            background: #a94442;
+        }
+
+        #sair:hover {
+            background: #853633;
+        }
+
+        button[hidden] {
+            display: none;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            main>h1 {
+                font-size: 27px;
+            }
+
+            section {
+                padding: 22px 18px;
+            }
+        }
+
+        main>h1 {
+            color: #355e2b;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        main>h1::after {
+            content: "";
+            display: block;
+            width: 55px;
+            height: 4px;
+            margin: 12px auto 0;
+            background-color: #8aaa72;
+            border-radius: 10px;
+        }
+
+        section h2 {
+            color: #355e2b;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 22px;
+        }
+
+        .paginaR {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .cartao {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cartao img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .cartao h3 {
+            color: #4A7C3A;
+            margin: 12px 0 5px;
+        }
+
+        .cartao p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .cartao a {
+            display: block;
+            background-color: #4A7C3A;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
+            font-weight: 600;
+        }
+
+        .cartao a:hover {
+            background-color: #355e2b;
+        }
+
+        @media (max-width: 600px) {
+            .paginaR {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header><a href="index.html" id="voltarInicio">Voltar para o início</a></header>
+
+    <main>
+        <h1>Minha Conta</h1>
+        <p>Bem-vindo(a) ao seu perfil no Shell's Life!</p>
+
+    <section id="dadosConta">
+        <form action="minhaConta.php" method="POST">
+            <h2>Meus dados</h2>
+
+            <div class="campo">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" value="<?php echo $usuario['nome']; ?>" disabled>
+            </div>
+
+            <div class="campo">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" value="<?php echo $usuario['email']; ?>" disabled>
+            </div>
+
+            <button type="button" id="editar">Editar dados</button>
+            <button type="submit" id="salvar" hidden>Salvar alterações</button>
+        </form>
+    </section>
+
+        <section id="minhasReceitas">
+            <h2>Minhas receitas</h2>
+            <div class="paginaR" id="listaMinhasReceitas"></div>
+        </section>
+
+        <section id="sairConta">
+            <h2>Sair da conta</h2>
+            <button type="button" id="sair">Sair</button>
+        </section>
+    </main>
+    <script>
+        const botaoEditar = document.getElementById("editar");
+        const botaoSalvar = document.getElementById("salvar");
+
+        botaoEditar.addEventListener("click", function () {
+            document.getElementById("nome").disabled = false;
+            document.getElementById("email").disabled = false;
+
+            botaoEditar.hidden = true;
+            botaoSalvar.hidden = false;
+        });
+
+        //colocar as receitas criadas na section Minhas receitas
+
+        function carregarMinhasReceitas() {
+            const receitas = JSON.parse(localStorage.getItem("receitas")) || [];
+
+            const areaReceitas = document.getElementById("listaMinhasReceitas");
+
+            areaReceitas.innerHTML = "";
+
+            // Associar receitas antigas à conta atual
+            receitas.forEach((receita) => {
+                if (!receita.usuarioEmail) {
+                    receita.usuarioEmail = emailSalvo;
+                }
+            });
+
+            localStorage.setItem("receitas", JSON.stringify(receitas));
+
+            let encontrou = false;
+
+            receitas.forEach((receita, indice) => {
+
+                if (receita.usuarioEmail === emailSalvo) {
+                    encontrou = true;
+
+                    areaReceitas.innerHTML += `
+                <div class="cartao">
+                    <img src="${receita.imagem}" alt="${receita.nome}">
+                    <h3>${receita.nome}</h3>
+                    <p>${receita.desc}</p>
+                    <a href="verreceita.html?id=${indice}">Ver receita</a>
+                </div>
+            `;
+                }
+            });
+
+            if (!encontrou) {
+                areaReceitas.innerHTML = `
+            <p>Você ainda não publicou nenhuma receita.</p>
+        `;
+            }
+        }
+        carregarMinhasReceitas();
+
+        document.getElementById("sair").addEventListener("click", function () {
+            window.location.href = "sair.php";
+        });
+    </script>
+</body>
+
+</html>
