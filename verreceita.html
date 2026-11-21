@@ -108,6 +108,7 @@
         ul,
         ol {
             width: 100%;
+            box-sizing: border-box;
             padding-left: 22px;
             margin: 6px 0;
         }
@@ -163,6 +164,27 @@
             location.reload();
         }
 
+        function separarItens(texto, separadorReserva) {
+            let itens = texto
+                .split('\n')
+                .map(item => item.trim())
+                .filter(item => item !== '');
+
+            if (itens.length === 1) {
+                itens = itens[0]
+                    .split(separadorReserva)
+                    .map(item => item.trim())
+                    .filter(item => item !== '');
+            }
+
+            return itens;
+        }
+
+        function montarLista(itens) {
+            return itens.map(item => `<li>${item}</li>`).join('');
+        }
+        
+
         function verRece() {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
@@ -180,17 +202,8 @@
                 return;
             }
 
-            const ingre = receita.ingredientes
-                .split('\n')
-                .filter(item => item.trim() !== '')
-                .map(item => `<li>${item}</li>`)
-                .join('');
-
-            const modop = receita.modoP
-                .split('\n')
-                .filter(item => item.trim() !== '')
-                .map(item => `<li>${item}</li>`)
-                .join('');
+            const ingre = montarLista(separarItens(receita.ingredientes, /[,;]\s+/));
+            const modop = montarLista(separarItens(receita.modoP, /[.;]\s+/));
 
             cartao.innerHTML = `
                 <a href="index.html" class="voltar">Voltar</a>
