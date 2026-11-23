@@ -14,8 +14,6 @@ $sql = "SELECT * FROM receita";
 $resultado = mysqli_query($conexao, $sql);
 ?>
 
-<!-- Testando o trem novo -->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
