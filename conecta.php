@@ -11,5 +11,4 @@ if (!$conexao) {
     die("Erro na conexão: " . mysqli_connect_error());
 }
 
-echo "Conectado!";
 ?>
