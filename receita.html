@@ -226,15 +226,13 @@
 2 ovos
 1 xícara de leite
 1 colher de farinha" rows="4" required></textarea>
-            <p class="dica">Aperte Enter para separar cada ingrediente</p>
 
             <p>Modo de preparo</p>
             <textarea class="modoP" placeholder="Descreva o passo a passo da receita..." rows="5" required></textarea>
-            <p class="dica">Aperte Enter para separar cada passo</p>
 
             <button type="submit">Publicar receita</button>
 
-            <a href="index.html" class="voltar">
+            <a href="index.php" class="voltar">
                 Voltar para o início
             </a>
 
@@ -335,7 +333,7 @@
                     );
 
                     alert('Receita publicada com sucesso!');
-                    window.location.href = 'index.html';
+                    window.location.href = 'index.php';
 
                 } catch (erro) {
                     console.error('Erro ao salvar a receita:', erro);
