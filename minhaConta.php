@@ -276,7 +276,7 @@ $usuario = mysqli_fetch_assoc($resultado);
 </head>
 
 <body>
-    <header><a href="index.html" id="voltarInicio">Voltar para o início</a></header>
+    <header><a href="index.php" id="voltarInicio">Voltar para o início</a></header>
 
     <main>
         <h1>Minha Conta</h1>

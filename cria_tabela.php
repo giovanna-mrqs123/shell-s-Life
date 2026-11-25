@@ -17,9 +17,9 @@ if (mysqli_query($conexao, $sql) === TRUE) {
     echo "Erro ao criar a tabela: " . $conexao->error;
 }
 
+
 echo "<br>";
 //tabela receita
-
 
 $sql = 'CREATE TABLE IF NOT EXISTS receita (
             id INT NOT NULL AUTO_INCREMENT,
