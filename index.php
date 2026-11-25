@@ -2,6 +2,41 @@
 session_start();
 include 'conecta.php';
 
+if (isset($_POST['curtir'])) {
+    if (!isset($_SESSION['usuario_id'])) {
+        die("Você precisa estar logado para curtir uma receita!");
+    }
+
+    $usuario_id = $_SESSION['usuario_id'];
+    $receita_id = (int) $_POST['curtir'];
+
+    $sqlVerificar = "SELECT * FROM interacao
+                     WHERE usuario_id = $usuario_id
+                     AND receita_id = $receita_id
+                     AND tipo = 'curtida'";
+
+    $resultadoVerificar = mysqli_query($conexao, $sqlVerificar);
+
+    if (mysqli_num_rows($resultadoVerificar) > 0) {
+
+        $sqlCurtir = "DELETE FROM interacao
+                      WHERE usuario_id = $usuario_id
+                      AND receita_id = $receita_id
+                      AND tipo = 'curtida'";
+
+    } else {
+
+        $sqlCurtir = "INSERT INTO interacao
+                      (tipo, nota, data_interacao, usuario_id, receita_id)
+                      VALUES ('curtida', NULL, NOW(), $usuario_id, $receita_id)";
+    }
+
+    mysqli_query($conexao, $sqlCurtir);
+
+    header("Location: index.php");
+    exit;
+}
+
 // Verifica se existe uma mensagem de exclusão
 if (isset($_SESSION['mensagem_exclusao'])) {
     echo "<p>" . $_SESSION['mensagem_exclusao'] . "</p>";
@@ -359,6 +394,25 @@ $resultado = mysqli_query($conexao, $sql);
         <div class="paginaR">
             <?php
             while ($receita = mysqli_fetch_assoc($resultado)) {
+
+
+                $receita_id = $receita['id'];
+                $curtida = false;
+
+                if (isset($_SESSION['usuario_id'])) {
+                    $usuario_id = $_SESSION['usuario_id'];
+
+                    $sqlCurtida = "SELECT * FROM interacao
+                       WHERE usuario_id = $usuario_id
+                       AND receita_id = $receita_id
+                       AND tipo = 'curtida'";
+
+                    $resultadoCurtida = mysqli_query($conexao, $sqlCurtida);
+
+                    if (mysqli_num_rows($resultadoCurtida) > 0) {
+                        $curtida = true;
+                    }
+                }
                 ?>
                 <div class="cartao">
                     <div class="receita">
@@ -371,9 +425,18 @@ $resultado = mysqli_query($conexao, $sql);
                         <div class="acoesReceita">
                             <a href="verreceita.php?id=<?php echo $receita['id']; ?>" class="btn btn-success">Ver
                                 Receita</a>
-                            <button class="btn btn-success" type="button"
-                                data-curtida-id="receita-<?php echo $receita['id']; ?>"
-                                onclick="curtirReceita('receita-<?php echo $receita['id']; ?>')"> ♡ </button>
+                            <form method="POST">
+                                <button class="btn btn-success" type="submit" name="curtir"
+                                    value="<?php echo $receita['id']; ?>">
+                                    <?php
+                                    if ($curtida == true) {
+                                        echo "♥";
+                                    } else {
+                                        echo "♡";
+                                    }
+                                    ?>
+                                </button>
+                            </form>
                             <div class="tempdifi">
                                 <span class="badge bg-primary">
                                     <?php echo $receita['tempo']; ?> min
@@ -456,36 +519,6 @@ $resultado = mysqli_query($conexao, $sql);
         </div>
     </section>
     <script>
-        function curtirReceita(id) {
-            let curtidas = JSON.parse(localStorage.getItem('curtidas')) || [];
-
-            if (curtidas.includes(id)) {
-                curtidas = curtidas.filter(item => item !== id);
-            } else {
-                curtidas.push(id);
-            }
-
-            localStorage.setItem('curtidas', JSON.stringify(curtidas));
-
-            atualizarBotoesCurtida();
-        }
-
-        function atualizarBotoesCurtida() {
-            const curtidas = JSON.parse(localStorage.getItem('curtidas')) || [];
-
-            const botoes = document.querySelectorAll('[data-curtida-id]');
-
-            botoes.forEach(botao => {
-                const id = botao.getAttribute('data-curtida-id');
-
-                if (curtidas.includes(id)) {
-                    botao.innerHTML = '♥';
-                } else {
-                    botao.innerHTML = '♡';
-                }
-            });
-        }
-
         function verificarLogin(event) {
             if (<?php echo isset($_SESSION['usuario_id']) ? 'true' : 'false'; ?> == false) {
                 event.preventDefault();
@@ -497,7 +530,6 @@ $resultado = mysqli_query($conexao, $sql);
         if (<?php echo isset($_SESSION['usuario_id']) ? 'true' : 'false'; ?>) {
             document.getElementById("btnCadastrar").style.display = "none";
         }
-        atualizarBotoesCurtida();
     </script>
 </body>
 
