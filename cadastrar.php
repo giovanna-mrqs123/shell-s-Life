@@ -2,6 +2,8 @@
 session_start();
 include 'conecta.php';
 
+//teste
+
 $nome = $_POST['nome'];
 $nome = mysqli_real_escape_string($conexao, $nome);
 $email = $_POST['email'];
