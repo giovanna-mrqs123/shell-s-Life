@@ -55,6 +55,8 @@ if (!$receita) {
     die("Receita não encontrada!");
 }
 
+//verificacao do dono
+$dono = isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] == $receita ['usuario_id'];
 //confirma a exclusao da receita
 if (isset($_POST['excluir'])) {
     //tem usuario logado?
@@ -470,11 +472,16 @@ if (isset($_POST['salvar'])) {
 
 </form>
 
+     <?php if($dono){ ?>
         <button type="button"
-            onclick="window.location.href='editarReceita.php?id=<?php echo $receita['id']; ?>'">Editar</button>
+        onclick="window.location.href='editarReceita.php?id=<?php echo $receita['id']; ?>'">Editar
+        </button>
+
+            
         <form method="POST" onsubmit="return confirm('Tem certeza que deseja excluir essa receita?')">
             <button type="submit" name="excluir" class="excluir">Excluir</button>
         </form>
+     <?php } ?>
         <form method="POST">
             <button type="button" class="adicionar"
               onclick="window.location.href='caderno.php?receita_id=<?php echo $id; ?>'">Adicionar ao caderno

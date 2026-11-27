@@ -346,7 +346,7 @@ $ehAdmin = isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'ad
 
         <div class="offcanvas-body d-flex flex-column gap-2">
             <a href="index.php" class="btn btn-outline-success text-start">Início</a>
-            <a href="receita.html" class="btn btn-outline-success text-start" id="linkPublicar"
+            <a href="receita.php" class="btn btn-outline-success text-start" id="linkPublicar"
                 onclick="verificarLogin(event)">Publicar receita</a>
             <a href="caderno.php" class="btn btn-outline-success text-start">Meu caderno de receitas</a>
             <a href="minhaConta.php" class="btn btn-outline-success text-start">Minha conta</a>
@@ -378,7 +378,7 @@ $ehAdmin = isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'ad
                 </ul>
 
                 <form class="d-flex" role="search">
-                    <a href="login.html" id="btnLogar" class="btn btn-success">Login</a>
+                    <a href="login.php" id="btnLogar" class="btn btn-success">Login</a>
                     <button id="menu" class="btn btn-outline-success" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#menuLateral" aria-controls="menuLateral">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -512,7 +512,7 @@ $ehAdmin = isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'ad
             if (<?php echo isset($_SESSION['usuario_id']) ? 'true' : 'false'; ?> == false) {
                 event.preventDefault();
                 alert('Você precisa estar logado para publicar uma receita!');
-                window.location.href = 'login.html';
+                window.location.href = 'login.php';
             }
         }
 

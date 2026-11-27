@@ -1,8 +1,16 @@
 <?php
+session_start();
 include 'conecta.php';
 
+if(!isset($_SESSION['usuario_id'])){
+    die('Você precisa estar logado para editar uma receita!');
+}
+
+$usuario_id = $_SESSION['usuario_id'];
+
 $id = (int) $_GET['id'];
-$sql = "SELECT * FROM receita WHERE id = $id";
+$sql = "SELECT * FROM receita WHERE id = $id AND usuario_id = $usuario_id";
+
 $resultado = mysqli_query($conexao, $sql);
 
 $receita = mysqli_fetch_assoc($resultado);
