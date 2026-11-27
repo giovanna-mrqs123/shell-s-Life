@@ -315,6 +315,10 @@ $usuario = mysqli_fetch_assoc($resultado);
         const botaoEditar = document.getElementById("editar");
         const botaoSalvar = document.getElementById("salvar");
 
+        document.getElementById("sair").addEventListener("click", function () {
+            window.location.href = "sair.php";
+        });
+
         botaoEditar.addEventListener("click", function () {
             document.getElementById("nome").disabled = false;
             document.getElementById("email").disabled = false;
@@ -366,10 +370,6 @@ $usuario = mysqli_fetch_assoc($resultado);
             }
         }
         carregarMinhasReceitas();
-
-        document.getElementById("sair").addEventListener("click", function () {
-            window.location.href = "sair.php";
-        });
     </script>
 </body>
 
