@@ -381,6 +381,11 @@ if (($_SESSION['usuario_tipo'] ?? '') !== 'admin') {
     </main>
 
     <script>
+        const formulario = document.getElementById('formProduto');
+        const campoImagem = document.getElementById('imagem');
+        const previaImagem = document.getElementById('previaImagem');
+        let urlPreviaAtual = null;
+        
         // Lê os campos da tabela nutricional que estão no HTML
         function lerTabela() {
             const porcao = document.querySelector('#porcao').value.trim();
