@@ -308,12 +308,16 @@ $usuario = mysqli_fetch_assoc($resultado);
 
         <section id="sairConta">
             <h2>Sair da conta</h2>
-            <a href="sair.php" id="sair">Sair</a>
+            <button type="button" id="sair">Sair</button>
         </section>
     </main>
     <script>
         const botaoEditar = document.getElementById("editar");
         const botaoSalvar = document.getElementById("salvar");
+
+        document.getElementById("sair").addEventListener("click", function () {
+            window.location.href = "sair.php";
+        });
 
         botaoEditar.addEventListener("click", function () {
             document.getElementById("nome").disabled = false;
