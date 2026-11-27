@@ -11,7 +11,6 @@ $produto = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 
 $t = $produto ? json_decode($produto['tabela_nutricional'], true) : null;
 
-// id => [rótulo, classe de recuo]
 $linhas = [
     'energia'             => ['Valor energético (kcal)', ''],
     'carboidratos'        => ['Carboidratos (g)', ''],
@@ -124,7 +123,6 @@ $linhas = [
             background-color: #3f6931;
         }
 
-        /* Tabela nutricional: preta sobre fundo branco, como no rótulo */
         .tabelaNutri {
             width: 100%;
             border-collapse: collapse;
@@ -157,12 +155,8 @@ $linhas = [
             text-align: right;
         }
 
-        .tabelaNutri td.indentado {
-            padding-left: 20px;
-        }
-
-        .tabelaNutri td.indentado2 {
-            padding-left: 34px;
+        .tabelaNutri td.indentado, .tabelaNutri td.indentado2 {
+            padding-left: 6px;
         }
 
         .tabelaNutri tfoot td {
