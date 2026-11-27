@@ -500,11 +500,13 @@ $ehAdmin = isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'ad
                     <div class="corpoR">
                         <h4><?php echo htmlspecialchars($produto['nome']); ?></h4>
                         <p class="desc"><?php echo htmlspecialchars($produto['descricao']); ?></p>
-                    </div>
-
+                        <div class="acoesReceita">
+                            <a href="verproduto.php?id=<?php echo (int) $produto['id']; ?>" class="btn btn-success">Ver Produto</a>
+                        </div>
                     </div>
                 </div>
-            <?php } ?>  
+            <?php } ?>
+        </div>  
     </section>
 
     <script>
