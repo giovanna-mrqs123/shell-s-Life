@@ -47,6 +47,8 @@ if (isset($_SESSION['mensagem_exclusao'])) {
 // Busca todas as receitas
 $sql = "SELECT * FROM receita";
 $resultado = mysqli_query($conexao, $sql);
+$resProdutos = mysqli_query($conexao, "SELECT * FROM produto ORDER BY id DESC");
+$ehAdmin = isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'admin';
 ?>
 
 <!DOCTYPE html>
@@ -376,7 +378,7 @@ $resultado = mysqli_query($conexao, $sql);
                 </ul>
 
                 <form class="d-flex" role="search">
-                    <a href="login (1).html" id="btnCadastrar" class="btn btn-success">Cadastrar</a>
+                    <a href="login.html" id="btnLogar" class="btn btn-success">Login</a>
                     <button id="menu" class="btn btn-outline-success" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#menuLateral" aria-controls="menuLateral">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -474,61 +476,48 @@ $resultado = mysqli_query($conexao, $sql);
             </div>
         </div>
     </section>
+    
     <section id="produtos" class="container py-5">
-        <h2 class="text-center mb-4" style="color: #4A7C3A;">
-            Nossos Produtos
-        </h2>
+        <h2 class="text-center mb-4" style="color: #4A7C3A;">Nossos Produtos</h2>
 
         <p class="text-center mb-4">
             Conheça produtos que podem fazer parte de uma alimentação variada.
         </p>
 
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Granola</h5>
-                        <p class="card-text">
-                            Uma combinação de cereais e sementes que pode acompanhar frutas e iogurtes.
-                        </p>
-                    </div>
-                </div>
+        <?php if ($ehAdmin) { ?>
+            <div class="text-center">
+                <a href="produto.php" class="btn btn-success" style="margin-right: 0;">Adicionar produto</a>
             </div>
+        <?php } ?>
 
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Pasta de amendoim</h5>
-                        <p class="card-text">
-                            Pode ser usada em torradas, vitaminas e outras preparações.
-                        </p>
+        <div class="paginaR">
+            <?php while ($produto = mysqli_fetch_assoc($resProdutos)) { ?>
+                <div class="cartao">
+                    <div class="receita">
+                        <img src="<?php echo htmlspecialchars($produto['imagem']); ?>" alt="<?php echo htmlspecialchars($produto['nome']); ?>">
                     </div>
-                </div>
-            </div>
 
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Chia</h5>
-                        <p class="card-text">
-                            Uma semente que pode ser adicionada a frutas, iogurtes e receitas.
-                        </p>
+                    <div class="corpoR">
+                        <h4><?php echo htmlspecialchars($produto['nome']); ?></h4>
+                        <p class="desc"><?php echo htmlspecialchars($produto['descricao']); ?></p>
+                    </div>
+
                     </div>
                 </div>
-            </div>
-        </div>
+            <?php } ?>  
     </section>
+
     <script>
         function verificarLogin(event) {
             if (<?php echo isset($_SESSION['usuario_id']) ? 'true' : 'false'; ?> == false) {
                 event.preventDefault();
                 alert('Você precisa estar logado para publicar uma receita!');
-                window.location.href = 'login (1).html';
+                window.location.href = 'login.html';
             }
         }
 
         if (<?php echo isset($_SESSION['usuario_id']) ? 'true' : 'false'; ?>) {
-            document.getElementById("btnCadastrar").style.display = "none";
+            document.getElementById("btnLogar").style.display = "none";
         }
     </script>
 </body>
