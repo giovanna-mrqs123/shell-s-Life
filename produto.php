@@ -260,21 +260,21 @@ if (($_SESSION['usuario_tipo'] ?? '') !== 'admin') {
      <main class="cartao">
         <h2>Adicionar Produto</h2>
 
-        <form id="formProduto" action="salvar_produto.php" method="POST" enctype="multipart/form-data">
+        <form id="formProduto" action="salvarProduto.php" method="POST" enctype="multipart/form-data">
 
             <p>Foto do Produto</p>
-            <input type="file" class="imagem" id="imagem" accept="image/*" required>
+            <input type="file" name="imagem" class="imagem" id="imagem" accept="image/*" required>
 
             <p class="dica">Escolha uma foto para mostrar seu produto.</p>
 
             <img id="previaImagem" alt="Prévia da foto do produto">
 
             <p>Nome do produto</p>
-            <input type="text" class="nome" placeholder="Ex.: Barrinha de Cereal" maxlength="100" required>
+            <input type="text" name="nome" class="nome" placeholder="Ex.: Barrinha de Cereal" maxlength="100" required>
 
 
             <p>Descrição</p>
-            <textarea class="desc" placeholder="Conte um pouco sobre esse produto..." rows="3" maxlength="500" required></textarea>
+            <textarea name="descricao" class="desc" placeholder="Conte um pouco sobre esse produto..." rows="3" maxlength="500" required></textarea>
 
             <div class="tabela-nutricional">
                 <h2 id="infonutri">Informação Nutricional</h2>
