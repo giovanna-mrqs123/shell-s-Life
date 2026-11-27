@@ -308,7 +308,7 @@ $usuario = mysqli_fetch_assoc($resultado);
 
         <section id="sairConta">
             <h2>Sair da conta</h2>
-            <button type="button" id="sair">Sair</button>
+            <a href="sair.php" id="sair">Sair</a>
         </section>
     </main>
     <script>
@@ -366,10 +366,6 @@ $usuario = mysqli_fetch_assoc($resultado);
             }
         }
         carregarMinhasReceitas();
-
-        document.getElementById("sair").addEventListener("click", function () {
-            window.location.href = "sair.php";
-        });
     </script>
 </body>
 
