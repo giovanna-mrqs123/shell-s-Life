@@ -21,7 +21,7 @@ if(isset($_POST['nome'])){
    $dificuldade = mysqli_real_escape_string($conexao, $_POST['dificuldade']);
    $ingredientes = mysqli_real_escape_string($conexao, $_POST['ingredientes']);
    $modo_preparo = mysqli_real_escape_string($conexao, $_POST['modo_preparo']);
-
+   $privacidade = mysqli_real_escape_string($conexao, $_POST['privacidade']);
    //rcebe a imagem
    $imagem = $_FILES['imagem'];
 
@@ -38,9 +38,9 @@ if(isset($_POST['nome'])){
         if(move_uploaded_file($imagem['tmp_name'] , $caminhoImagem)){
             //insere os dodos da receita no banco
             $sql = "INSERT INTO receita
-            (nome, descricao, tempo, dificuldade, imagem, ingredientes, modo_preparo, usuario_id)
+            (nome, descricao, tempo, dificuldade, imagem, ingredientes, modo_preparo, privacidade, usuario_id)
             VALUES
-            ('$nome', '$descricao', '$tempo', '$dificuldade', '$caminhoImagem', '$ingredientes', '$modo_preparo', '$usuario_id')";
+            ('$nome', '$descricao', '$tempo', '$dificuldade', '$caminhoImagem', '$ingredientes', '$modo_preparo', '$privacidade', '$usuario_id')";
 
             //executa o comando
             if(mysqli_query($conexao, $sql)){
@@ -290,6 +290,12 @@ if(isset($_POST['nome'])){
                 <option value="Fácil">Fácil</option>
                 <option value="Média">Média</option>
                 <option value="Difícil">Difícil</option>
+            </select>
+
+            <p>Privacidade da receita</p>
+            <select id="privacidade" name="privacidade">
+                <option value="publico">Pública</option>
+                <option value="privado">Privada</option>
             </select>
 
             <p>Ingredientes</p>

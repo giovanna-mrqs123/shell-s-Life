@@ -25,14 +25,13 @@ if (isset($_GET['receita_id'])) {
     }
 }
 
-//Guarda o ID na variável $receita_id.
+//Verifica se o caderno pertence ao usuário logado
 if (isset($_GET['id'])) {
     $caderno_id = (int) $_GET['id'];
 
     $sqlVerificar = "SELECT * FROM livro_receitas
                 WHERE id = $caderno_id
-                AND (usuario_id = $usuario_id
-                OR privacidade = 'publico')";
+                AND usuario_id = $usuario_id";
 
     $resultadoVerificar = mysqli_query($conexao, $sqlVerificar);
 
@@ -84,10 +83,9 @@ if (isset($_POST['criar'])) {
 
     $nome = $_POST['nome'];
     $descricao = $_POST['descricao'];
-    $privacidade = $_POST['publico'];
 
-    $sqlCriar = "INSERT INTO livro_receitas (nome, descricao, usuario_id, privacidade)
-                 VALUES ('$nome', '$descricao', $usuario_id, '$privacidade')";
+    $sqlCriar = "INSERT INTO livro_receitas (nome, descricao, usuario_id)
+                 VALUES ('$nome', '$descricao', $usuario_id)";
 
     if (mysqli_query($conexao, $sqlCriar)) {
 
@@ -434,11 +432,6 @@ if (isset($_GET['id'])) {
 
             <form method="POST">
                 <input type="text" name="nome" placeholder="Nome do caderno" required>
-
-                <select name="publico" required>
-                    <option value="publico">Público</option>
-                    <option value="privado">Privado</option>
-                </select>
 
                 <textarea name="descricao" placeholder="Descrição do caderno"></textarea>
 

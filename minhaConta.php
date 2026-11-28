@@ -28,6 +28,12 @@ $sql = "SELECT * FROM usuario WHERE id = $usuario_id";
 $resultado = mysqli_query($conexao, $sql);
 
 $usuario = mysqli_fetch_assoc($resultado);
+
+//busca todaas as receitas publicadas pelo usuario logado
+$sqlReceitas = "SELECT * FROM receita 
+                WHERE usuario_id = $usuario_id";
+
+$resultadoReceitas = mysqli_query($conexao, $sqlReceitas);
 ?>
 
 <!DOCTYPE html>
@@ -303,7 +309,20 @@ $usuario = mysqli_fetch_assoc($resultado);
 
         <section id="minhasReceitas">
             <h2>Minhas receitas</h2>
-            <div class="paginaR" id="listaMinhasReceitas"></div>
+            <div class="paginaR">
+                <?php if(mysqli_num_rows($resultadoReceitas) > 0) { ?>
+                <?php while ($receita = mysqli_fetch_assoc($resultadoReceitas)){ ?>
+                     <div class="cartao">
+                        <img src="<?php echo $receita['imagem']; ?>" alt="<?php echo $receita['nome']; ?>">
+                        <h3><?php echo $receita['nome']; ?></h3>
+                        <p><?php echo $receita['descricao']; ?></p>
+                        <a href="verreceita.php?id=<?php echo $receita['id']; ?>">Ver receita</a>
+                     </div>
+                     <?php } ?>
+                     <?php } else{ ?>
+                        <p>Você ainda não publicou nenhuma receita</p>
+                     <?php } ?>
+            </div>
         </section>
 
         <section id="sairConta">

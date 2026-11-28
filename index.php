@@ -44,9 +44,23 @@ if (isset($_SESSION['mensagem_exclusao'])) {
     unset($_SESSION['mensagem_exclusao']);
 }
 
-// Busca todas as receitas
-$sql = "SELECT * FROM receita";
+// verifica as receitas que o usuário pode ver
+if(isset($_SESSION['usuario_id'])){
+
+   //usuario logado: receitas publicas e suas receitas privadas
+   $usuario_id = $_SESSION['usuario_id'];
+   $sql = "SELECT * FROM receita
+            WHERE privacidade = 'publico'
+            OR usuario_id = $usuario_id";
+}else{
+    //visitante: somente receitas publicas
+    $sql = "SELECT * FROM receita
+            WHERE privacidade = 'publico'";
+}
+
 $resultado = mysqli_query($conexao, $sql);
+
+
 $resProdutos = mysqli_query($conexao, "SELECT * FROM produto ORDER BY id DESC");
 $ehAdmin = isset($_SESSION['usuario_tipo']) && $_SESSION['usuario_tipo'] === 'admin';
 ?>
